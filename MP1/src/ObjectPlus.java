@@ -8,8 +8,6 @@ import java.util.Map;
 
 public class ObjectPlus {
 
-    /*trwałość +  zarządzanie ekstensją*/
-
     protected static Map<Class, List<ObjectPlus>> allExtents = new HashMap<>();
 
     public ObjectPlus() {
@@ -21,7 +19,7 @@ public class ObjectPlus {
         }
         else {
             // An extent does not exist - create a new one
-            extent = new ArrayList();
+            extent = new ArrayList<>();
             allExtents.put(theClass, extent);
         }
         extent.add(this);
@@ -31,7 +29,11 @@ public class ObjectPlus {
         stream.writeObject(allExtents);
     }
     public static void readExtents(ObjectInputStream stream) throws IOException, ClassNotFoundException {
-        allExtents = (HashMap) stream.readObject();
+        Object readObject = stream.readObject();
+        if(!(readObject instanceof Map)) {
+            throw new IOException("Unexpected object type: " + readObject.getClass().getName());
+        }
+        allExtents = (Map<Class, List<ObjectPlus>>) stream.readObject();
     }
 
     public void destroyObject(){

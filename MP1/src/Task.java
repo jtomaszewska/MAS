@@ -7,32 +7,25 @@ import java.util.stream.Collectors;
 
 public class Task extends ObjectPlus implements Serializable {
 
+    public static List<Task> getTasks(Status status) {
+        List<Task> allTasks = getTasks();
+        return allTasks.stream().filter(t -> t.getStatus().equals(status)).collect(Collectors.toList());
+    }
+
+    public static List<Task> getTasks(){
+        return allExtents.get(Task.class).stream().map(obj -> (Task) obj)
+                .collect(Collectors.toList());
+    }
+
     private String title;
     private Status status;
     private Priority priority;
     private String description;
-    /*atrybut powtarzalny*/
-    /*Powtarzalne. Należy wykorzystać tablice lub
-    kontenery (rozwiązanie preferowane gdy liczba
-    wartości jest zmienna*/
     private Set<User> watchers = new HashSet<>();
-    /*atrybut złożony*/
-    private LocalDateTime dateCreate;
-    /*atrybut opcjonalny + musi być zaprezentowane wykorzystanie tej opcjionalności*/
-    /*Opcjonalne
-        • Właściwe zapamiętanie informacji lub jej braku.
-        • Odpowiednie przetwarzanie obu przypadków.
-        • Dla atrybutów złożonych przechowujemy null jako
-        informację o braku wartości.
-        • Co z atrybutami prostymi? Klasy opakowujące!
-        • Warto również zadbać o specjalny dostęp do
-        takiego atrybutu (bo może nie mieć wartości!).
-        */
-    private LocalDateTime dateStart;
-    /*atrybut opcjonalny*/
-    private LocalDateTime dateEnd;
+    private LocalDateTime createDate;
+    private LocalDateTime startDate;
+    private LocalDateTime endDate;
 
-    //konstruktor odwołuje się do konstruktora z nadklasy - super
     public Task(String title, Priority priority,
                 String description, User watcher) {
         super();
@@ -41,9 +34,9 @@ public class Task extends ObjectPlus implements Serializable {
         this.priority = priority;
         this.description = description;
         this.addWatcher(watcher);
-        this.dateCreate = LocalDateTime.now();
-        this.dateStart = null;
-        this.dateEnd = null;
+        this.createDate = LocalDateTime.now();
+        this.startDate = null;
+        this.endDate = null;
     }
 
     public String getTitle() {
@@ -66,68 +59,62 @@ public class Task extends ObjectPlus implements Serializable {
         return watchers;
     }
 
-    public LocalDateTime getDateCreate() {
-        return dateCreate;
+    public LocalDateTime getCreateDate() {
+        return createDate;
     }
 
-    /*metoda prezentująca atrybut opcjonalny
-    np podaj datę zakończenia zadania, może ono jeszcze nie mieć wartości*/
-    public LocalDateTime getDateStart() {
-        return dateStart;
+    /**
+     * Gets the value of the task start date
+     *
+     * @return start date if was set before or null if task is not started
+     */
+    public LocalDateTime getStartDate() {
+        return startDate;
     }
 
-    public LocalDateTime getDateEnd() {
-        return dateEnd;
+    /**
+     * Gets the value of the task end date
+     *
+     * @return end date if task was ended or null otherwise
+     */
+    public LocalDateTime getEndDate() {
+        return endDate;
     }
 
     public void addWatcher(User user) {
         this.watchers.add(user);
     }
 
+    private void setStartDate(LocalDateTime startDate) {
+        this.startDate = startDate;
+    }
+
+    private void setEndDate(LocalDateTime endDate) {
+        this.endDate = endDate;
+    }
+
     public void removeWatcher(User user) {
         this.watchers.remove(user);
     }
 
-    /*metoda obiektu*/
     public void changeStatus(Status newStatus) {
         this.status = newStatus;
         switch (status) {
             case closed:
-                dateEnd = LocalDateTime.now();
+                setEndDate(LocalDateTime.now());
             case in_progress:
-                dateStart = LocalDateTime.now();
+                setStartDate(LocalDateTime.now());
         }
     }
 
-    /*
-    metoda klasowa
-    np wypisz zadania w danym statusie
-    wypisz zadania przypisane do danej osoby
-    wypisz zadania w których jednym z watchers jest podany user
-    */
-    public static List<Task> getTasks(Status status) {
-        List<Task> allTasks = getTasks();
-        return allTasks.stream().filter(t -> t.getStatus().equals(status)).collect(Collectors.toList());
-    }
-
-    /*przykład na przeciążanie*/
-    public static List<Task> getTasks(){
-        return allExtents.get(Task.class).stream().map(obj -> (Task) obj)
-                .collect(Collectors.toList());
-    }
-
-    /*atrybut pochodny - realizowany przez metodę, ma getter, brak settera, nie przechowujemy go
-     * np podaj bieżący czas realizacji zadania, jesli nie rozpoczete to 0,
-     * jesli trwa to data dziś - data rozpoczecia prac,
-     * jest zakończone to data zakończenia - data rozpoczęcia prac*/
     public String getTimeSpent() {
-        if (dateStart == null) {
-            return this.title + " not started";
+        if (this.getStartDate() == null) {
+            return String.format("Task %s not started", getTitle());
         }
-        if (dateEnd == null) {
-            return this.title +": "+ DateTimeUtils.getDurationBetween(this.getDateStart(), LocalDateTime.now())+" time spent";
-        }
-        return this.title +": "+ DateTimeUtils.getDurationBetween(this.getDateStart(), this.getDateEnd())+" time spent";
+        String duration = DateTimeUtils.getDurationBetween(
+                getStartDate(),
+                getEndDate() != null ? getEndDate() : LocalDateTime.now());
+        return String.format("Task %s:  %s time spent", getTitle(), duration);
     }
 
     @Override
@@ -138,9 +125,9 @@ public class Task extends ObjectPlus implements Serializable {
                 ", priority=" + priority +
                 ", description='" + description + '\'' +
                 ", watchers=" + watchers +
-                ", dateCreate=" + dateCreate +
-                ", dateStart=" + dateStart +
-                ", dateEnd=" + dateEnd +
+                ", createDate=" + createDate +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
                 '}';
     }
 }

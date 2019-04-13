@@ -1,11 +1,8 @@
 import java.io.*;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class Main {
-
-
-    //tu tworzę obiekty danych klas z przykładowymi danymi
-
 
     public static void main(String[] args) throws IOException, ClassNotFoundException {
         ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream("objects.txt"));
@@ -27,6 +24,8 @@ public class Main {
         }
         System.out.println(myTask1.getTimeSpent());
         System.out.println(myTask2.getTimeSpent());
+
+        LocalDateTime dateEnd = myTask1.getStartDate();
 
         ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream("objects.txt"));
 //        ObjectPlus.writeExtents(objectOutputStream);
