@@ -14,11 +14,9 @@ public class ObjectPlus {
         List<ObjectPlus> extent = null;
         Class theClass = this.getClass();
         if(allExtents.containsKey(theClass)) {
-            // An extent of this class already exist
             extent = allExtents.get(theClass);
         }
         else {
-            // An extent does not exist - create a new one
             extent = new ArrayList<>();
             allExtents.put(theClass, extent);
         }
@@ -42,7 +40,7 @@ public class ObjectPlus {
         }
     }
 
-    public static void logExtensions(){
+    public static void logExtents() {
         for (Class classEntity: allExtents.keySet()) {
             for (ObjectPlus obj : allExtents.get(classEntity)) {
                 System.out.println(obj);

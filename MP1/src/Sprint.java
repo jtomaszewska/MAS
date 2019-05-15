@@ -30,7 +30,6 @@ public class Sprint extends ObjectPlus implements Serializable {
         this.durationWeeks = durationWeeks;
     }
 
-
     public String getName() {
         return name;
     }

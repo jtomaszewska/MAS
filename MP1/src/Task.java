@@ -1,11 +1,10 @@
 import java.io.Serializable;
+import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
-public class Task extends ObjectPlus implements Serializable {
+public class Task extends ObjectPlusPlus implements Serializable {
 
     public static List<Task> getTasks(Status status) {
         List<Task> allTasks = getTasks();
@@ -21,22 +20,24 @@ public class Task extends ObjectPlus implements Serializable {
     private Status status;
     private Priority priority;
     private String description;
-    private Set<User> watchers = new HashSet<>();
     private LocalDateTime createDate;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
 
     public Task(String title, Priority priority,
-                String description, User watcher) {
+                String description) {
         super();
         this.title = title;
         this.status = Status.to_do;
         this.priority = priority;
         this.description = description;
-        this.addWatcher(watcher);
         this.createDate = LocalDateTime.now();
         this.startDate = null;
         this.endDate = null;
+    }
+
+    public void assignOwner(User user) throws Exception {
+        user.assignTask(this);
     }
 
     public String getTitle() {
@@ -53,10 +54,6 @@ public class Task extends ObjectPlus implements Serializable {
 
     public String getDescription() {
         return description;
-    }
-
-    public Set<User> getWatchers() {
-        return watchers;
     }
 
     public LocalDateTime getCreateDate() {
@@ -81,9 +78,9 @@ public class Task extends ObjectPlus implements Serializable {
         return endDate;
     }
 
-    public void addWatcher(User user) {
-        this.watchers.add(user);
-    }
+//    public void addWatcher(User user) {
+//        this.watchers.add(user);
+//    }
 
     private void setStartDate(LocalDateTime startDate) {
         this.startDate = startDate;
@@ -93,9 +90,9 @@ public class Task extends ObjectPlus implements Serializable {
         this.endDate = endDate;
     }
 
-    public void removeWatcher(User user) {
-        this.watchers.remove(user);
-    }
+//    public void removeWatcher(User user) {
+//        this.watchers.remove(user);
+//    }
 
     public void changeStatus(Status newStatus) {
         this.status = newStatus;
@@ -107,14 +104,14 @@ public class Task extends ObjectPlus implements Serializable {
         }
     }
 
-    public String getTimeSpent() {
+    public Duration getTimeSpent() {
         if (this.getStartDate() == null) {
-            return String.format("Task %s not started", getTitle());
+            return null;
         }
-        String duration = DateTimeUtils.getDurationBetween(
+        Duration duration = DateTimeUtils.getDurationBetween(
                 getStartDate(),
                 getEndDate() != null ? getEndDate() : LocalDateTime.now());
-        return String.format("Task %s:  %s time spent", getTitle(), duration);
+        return duration;
     }
 
     @Override
@@ -124,7 +121,6 @@ public class Task extends ObjectPlus implements Serializable {
                 ", status=" + status +
                 ", priority=" + priority +
                 ", description='" + description + '\'' +
-                ", watchers=" + watchers +
                 ", createDate=" + createDate +
                 ", startDate=" + startDate +
                 ", endDate=" + endDate +
