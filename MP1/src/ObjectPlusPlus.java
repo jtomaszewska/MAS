@@ -41,7 +41,7 @@ public class ObjectPlusPlus extends ObjectPlus implements Serializable {
             // Add a link for the target object
             objectLinks.put(qualifier, targetObject);
             // Add the reverse connection
-            targetObject.addLink(reverseRoleName, roleName, this, this, counter - 1);
+            targetObject.addLink(reverseRoleName, roleName, this, qualifier, counter - 1);
         }
     }
 
@@ -103,8 +103,13 @@ public class ObjectPlusPlus extends ObjectPlus implements Serializable {
 
     @Override
     public void destroyObject() {
+        //usunięcie z ekstensji
         super.destroyObject();
         //ma usuwać relacje również z globalnej listy
+
+        //muszę usunąć powiązania do obiektu - poszukać wszystkich relacji do tego obiektu - w obie strony i wyrzucic
+        //Map<Object, ObjectPlusPlus> objectsLinks = links.
+
     }
 
 }

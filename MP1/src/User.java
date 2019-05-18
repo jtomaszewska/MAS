@@ -1,4 +1,3 @@
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,8 +23,8 @@ public class User extends ObjectPlusPlus {
         }
     }
 
-    public void addToTeam(Team team, LocalDate dateStart) throws Exception {
-        new TeamUser(team, this, dateStart);
+    public void addToTeam(Team team, TimePeriod timePeriod) throws Exception {
+        new TeamUser(team, this, timePeriod);
     }
 
     @Override

@@ -1,9 +1,11 @@
 public enum LinksMetaData {
 
-    TASK_USER(Task.class, User.class, "is owned by", "is responsible for"),
-    USER_TASK(User.class, Task.class, "is responsible for", "is owned by"),
-    USER_TEAM(User.class, Team.class, "is member of", "consist of"),
-    TEAM_USER(Team.class, User.class, "consist of", "is member of");
+    TASK_USER(Task.class, User.class, "owned by", "responsible for"),
+    USER_TASK(User.class, Task.class, "responsible for", "owned by"),
+    USER_TEAM(User.class, Team.class, "member of", "consist of"),
+    TEAM_USER(Team.class, User.class, "consist of", "member of"),
+    PROJECT_REPORT(Project.class, Report.class, "documented by", "created for"),
+    REPORT_PROJECT(Report.class, Project.class, "created for", "documented by");
 
     public Class objectClass;
     public Class targetObjectClass;

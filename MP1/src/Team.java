@@ -1,10 +1,8 @@
-import java.time.LocalDate;
-
 public class Team extends ObjectPlusPlus {
 
     private String name;
 
-    public Team(String name) {
+    protected Team(String name) {
         this.name = name;
     }
 
@@ -16,7 +14,14 @@ public class Team extends ObjectPlusPlus {
         this.name = name;
     }
 
-    public void addMember(User user, LocalDate dateStart) throws Exception {
-        new TeamUser(this, user, dateStart);
+    protected void addMember(User user, TimePeriod timePeriod) {
+        new TeamUser(this, user, timePeriod);
+    }
+
+    @Override
+    public String toString() {
+        return "Team{" +
+                "name='" + name + '\'' +
+                '}';
     }
 }

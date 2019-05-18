@@ -1,7 +1,6 @@
 import java.io.FileOutputStream;
 import java.io.ObjectOutputStream;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -30,10 +29,7 @@ public class Main {
         Task task2 = new Task("Task 2", Priority.critical, "Nanana");
         Task task3 = new Task("Task 3", Priority.major, "Desc 3");
 
-        LocalDateTime dateEnd = myTask1.getStartDate();
-
         //zwykła 1..*
-        //user1.showLinks("", System.out);
         user1.assignTask(myTask1);
         user1.assignTask(task2);
         task3.assignOwner(user1);
@@ -41,19 +37,39 @@ public class Main {
         user1.showLinks(LinksMetaData.USER_TASK.roleName, System.out);
         task2.showLinks(LinksMetaData.USER_TASK.reverseRoleName, System.out);
 
-        Team team1 = new Team("T1");
-        Team team2 = new Team("T2");
+        Team team1 = new Team("Team 1");
+        Team team2 = new Team("Team 2");
         User user2 = new User("Jan", "Studencki", Arrays.asList("jstudencki@js.pl", "jan.studencki@gmail.com"));
 
-        team1.addMember(user1, LocalDate.now());
-        team1.addMember(user2, LocalDate.now());
+        // Z atrybutem *..* User-Team
 
-        user1.addToTeam(team2, LocalDate.now());
+        TimePeriod timePeriod = new TimePeriod(LocalDate.now(), null);
+        team1.addMember(user1, timePeriod);
+        team1.addMember(user2, timePeriod);
+
+        user1.addToTeam(team2, timePeriod);
 
         user1.showLinks(LinksMetaData.USER_TEAM.roleName, System.out);
         user2.showLinks(LinksMetaData.USER_TEAM.roleName, System.out);
         team1.showLinks(LinksMetaData.TEAM_USER.roleName, System.out);
         team2.showLinks(LinksMetaData.TEAM_USER.roleName, System.out);
+
+        // kwalifikowana 1..* Project-Report qualifier:name
+
+        Project project1 = new Project("Project 1");
+        Report reportFin = new Report("Financial1", "\\\\repots.abc.pl\\project1\\fin1");
+        Report reportTech = new Report("Technical1", "\\\\repots.abc.pl\\project1\\tech1");
+
+        project1.addReport(reportFin, reportFin.getName());
+//        reportTech.connectToProject(project1, reportTech.getName());
+//        Project project2 = new Project("Project 2");
+//        project1.showLinks(LinksMetaData.PROJECT_REPORT.roleName, System.out);
+//        reportFin.showLinks(LinksMetaData.REPORT_PROJECT.roleName, System.out);
+//        reportTech.showLinks(LinksMetaData.REPORT_PROJECT.roleName, System.out);
+        System.out.println(project1.getReport("Financial1").toString());
+
+        //kompozycja Project - Sprint
+
 
         ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream("objects.txt"));
         ObjectPlus.writeExtents(objectOutputStream);
