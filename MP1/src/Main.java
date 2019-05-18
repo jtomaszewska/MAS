@@ -70,6 +70,9 @@ public class Main {
 
         //kompozycja Project - Sprint
 
+        project1.startSprint("S1", LocalDate.now(), 1);
+        project1.showLinks(LinksMetaData.PROJECT_SPRINT.roleName, System.out);
+
 
         ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream("objects.txt"));
         ObjectPlus.writeExtents(objectOutputStream);

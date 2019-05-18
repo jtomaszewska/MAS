@@ -1,12 +1,19 @@
 import java.io.Serializable;
 import java.time.LocalDate;
 
-public class Sprint extends ObjectPlus implements Serializable {
+public class Sprint extends ObjectPlusPlus implements Serializable {
 
     private static int defaultDurationWeeks = 2;
 
     public static void setDefaultDurationWeeks(int defaultDurationWeeks) {
         Sprint.defaultDurationWeeks = defaultDurationWeeks;
+    }
+
+    public static Sprint startSprint(Project project, String name, LocalDate start, int durationWeeks){
+        if(project == null){
+            throw new RuntimeException("Project does not exist");
+        }
+        return new Sprint(name, start, durationWeeks);
     }
 
     public static int getDefaultDurationWeeks() {
@@ -15,18 +22,16 @@ public class Sprint extends ObjectPlus implements Serializable {
 
     private String name;
     private LocalDate start;
-    private LocalDate end;
     private int durationWeeks;
 
-    public Sprint(String name, LocalDate start, LocalDate end) {
-        this(name, start, end, defaultDurationWeeks);
+    private Sprint(String name, LocalDate start) {
+        this(name, start, defaultDurationWeeks);
     }
 
-    public Sprint(String name, LocalDate start, LocalDate end, int durationWeeks) {
+    private Sprint(String name, LocalDate start, int durationWeeks) {
         super();
         this.name = name;
         this.start = start;
-        this.end = end;
         this.durationWeeks = durationWeeks;
     }
 
@@ -46,14 +51,6 @@ public class Sprint extends ObjectPlus implements Serializable {
         this.start = start;
     }
 
-    public LocalDate getEnd() {
-        return end;
-    }
-
-    public void setEnd(LocalDate end) {
-        this.end = end;
-    }
-
     public int getDurationWeeks() {
         return durationWeeks;
     }
@@ -61,4 +58,5 @@ public class Sprint extends ObjectPlus implements Serializable {
     public void setDurationWeeks(int durationWeeks) {
         this.durationWeeks = durationWeeks;
     }
+
 }
