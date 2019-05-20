@@ -16,12 +16,8 @@ public class Project extends ObjectPlusPlus {
         return (Report) this.getLinkedObject(LinksMetaData.PROJECT_REPORT.roleName, name);
     }
 
-    /*protected void registerRepair(Double expectedCost, String dateFrom, String description) {
-            Repair repair = Repair.registerRepair(this, expectedCost, dateFrom, description);
-            this.addPart(repair.role, this.role, repair, repair.dateFrom);
-        }*/
-    protected void startSprint(String name, LocalDate start, int durationWeek) throws Exception {
-        Sprint sprint = Sprint.startSprint(this, name, start, durationWeek);
+    protected void addSprint(String name, LocalDate start, int durationWeeks) throws Exception {
+        Sprint sprint = Sprint.registerSprint(name, start, durationWeeks);
         this.addPart(LinksMetaData.PROJECT_SPRINT.roleName, LinksMetaData.PROJECT_SPRINT.reverseRoleName, sprint);
     }
 

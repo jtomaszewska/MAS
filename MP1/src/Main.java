@@ -29,7 +29,7 @@ public class Main {
         Task task2 = new Task("Task 2", Priority.critical, "Nanana");
         Task task3 = new Task("Task 3", Priority.major, "Desc 3");
 
-        //zwykła 1..*
+        //zwykła 1..* User-Task
         user1.assignTask(myTask1);
         user1.assignTask(task2);
         task3.assignOwner(user1);
@@ -42,7 +42,6 @@ public class Main {
         User user2 = new User("Jan", "Studencki", Arrays.asList("jstudencki@js.pl", "jan.studencki@gmail.com"));
 
         // Z atrybutem *..* User-Team
-
         TimePeriod timePeriod = new TimePeriod(LocalDate.now(), null);
         team1.addMember(user1, timePeriod);
         team1.addMember(user2, timePeriod);
@@ -61,58 +60,30 @@ public class Main {
         Report reportTech = new Report("Technical1", "\\\\repots.abc.pl\\project1\\tech1");
 
         project1.addReport(reportFin, reportFin.getName());
-//        reportTech.connectToProject(project1, reportTech.getName());
-//        Project project2 = new Project("Project 2");
-//        project1.showLinks(LinksMetaData.PROJECT_REPORT.roleName, System.out);
-//        reportFin.showLinks(LinksMetaData.REPORT_PROJECT.roleName, System.out);
-//        reportTech.showLinks(LinksMetaData.REPORT_PROJECT.roleName, System.out);
+        reportTech.connectToProject(project1, reportTech.getName());
+        Project project2 = new Project("Project 2");
+        project1.showLinks(LinksMetaData.PROJECT_REPORT.roleName, System.out);
+        reportFin.showLinks(LinksMetaData.REPORT_PROJECT.roleName, System.out);
+        reportTech.showLinks(LinksMetaData.REPORT_PROJECT.roleName, System.out);
         System.out.println(project1.getReport("Financial1").toString());
+        System.out.println(project1.getLinkedObject(LinksMetaData.PROJECT_REPORT.roleName, "Financial1"));
 
         //kompozycja Project - Sprint
 
-        project1.startSprint("S1", LocalDate.now(), 1);
+
+        project1.addSprint("S1", LocalDate.now(), 1);
+        project1.addSprint("S2", LocalDate.now().plusWeeks(1), 2);
         project1.showLinks(LinksMetaData.PROJECT_SPRINT.roleName, System.out);
 
+        //sprawdzam czy moge powiązać część z dwoma calościami
+        Sprint s3 = Sprint.registerSprint("S3", LocalDate.now(), 1);
+        project2.addPart(LinksMetaData.PROJECT_SPRINT.roleName, LinksMetaData.PROJECT_SPRINT.reverseRoleName, s3);
+        //project1.addPart(LinksMetaData.PROJECT_SPRINT.roleName, LinksMetaData.PROJECT_SPRINT.reverseRoleName, s3);
 
         ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream("objects.txt"));
         ObjectPlus.writeExtents(objectOutputStream);
         System.out.println("after: ");
         ObjectPlus.logExtents();
 
-
-        /*// Create new objects (no links)
-        Actor a1 = new Actor("Arnold Schwarzenegger");
-        Actor a2 = new Actor("Michael Biehn");
-        Actor a3 = new Actor("Kristanna Loken");
-        Movie f1 = new Movie("Terminator 1");
-        Movie f3 = new Movie("Terminator 3");
-        Group g1 = new Group(1);
-        Group g2 = new Group(2);
-        // Add info about links
-        f1.addLink("actor", "movie", a1);
-        // f1.addLink("actor", "movie", a2);
-        f1.addLink("actor", "movie", a2, "MB"); // use the qualified association
-        f3.addLink("actor", "movie", a1);
-        f3.addLink("actor", "movie", a3);
-        g1.addPart("part", "whole", a1);
-        g1.addPart("part", "whole", a2);
-        g2.addPart("part", "whole", a3);
-        // g2.addPart("part", "whole", a1); // an exception because the part already belongs to another
-        whole (group)
-        */
-
-        /*
-        public static void testAssociationsObjectPlus() throws Exception {
-            // [...]
-            // Show infos
-            f1.showLinks("actor", System.out);
-            f3.showLinks("actor", System.out);
-            a1.showLinks("movie", System.out);
-            g1.showLinks("part", System.out);
-            // Test the qualified association
-            System.out.println(f1.getLinkedObject("actor", "MB"));
-        }
-
-         */
     }
 }

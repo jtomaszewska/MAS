@@ -78,10 +78,6 @@ public class Task extends ObjectPlusPlus implements Serializable {
         return endDate;
     }
 
-//    public void addWatcher(User user) {
-//        this.watchers.add(user);
-//    }
-
     private void setStartDate(LocalDateTime startDate) {
         this.startDate = startDate;
     }
@@ -89,10 +85,6 @@ public class Task extends ObjectPlusPlus implements Serializable {
     private void setEndDate(LocalDateTime endDate) {
         this.endDate = endDate;
     }
-
-//    public void removeWatcher(User user) {
-//        this.watchers.remove(user);
-//    }
 
     public void changeStatus(Status newStatus) {
         this.status = newStatus;

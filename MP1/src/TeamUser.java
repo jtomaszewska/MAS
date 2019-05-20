@@ -15,6 +15,14 @@ public class TeamUser extends ObjectPlusPlus implements Serializable {
         }
     }
 
+    public TimePeriod getTimePeriod() {
+        return timePeriod;
+    }
+
+    public void setTimePeriod(TimePeriod timePeriod) {
+        this.timePeriod = timePeriod;
+    }
+
     @Override
     public int hashCode() {
         return super.hashCode();

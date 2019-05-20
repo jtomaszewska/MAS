@@ -9,11 +9,15 @@ public class Sprint extends ObjectPlusPlus implements Serializable {
         Sprint.defaultDurationWeeks = defaultDurationWeeks;
     }
 
-    public static Sprint startSprint(Project project, String name, LocalDate start, int durationWeeks){
-        if(project == null){
-            throw new RuntimeException("Project does not exist");
-        }
+    public static Sprint registerSprint(String name, LocalDate start, int durationWeeks) {
         return new Sprint(name, start, durationWeeks);
+    }
+
+    public void addToProject(Project project, String name, LocalDate start, int durationWeeks) throws Exception {
+        if (project == null) {
+            throw new IllegalArgumentException("Project does not exists");
+        }
+        project.addSprint(name, start, durationWeeks);
     }
 
     public static int getDefaultDurationWeeks() {
@@ -59,4 +63,12 @@ public class Sprint extends ObjectPlusPlus implements Serializable {
         this.durationWeeks = durationWeeks;
     }
 
+    @Override
+    public String toString() {
+        return "Sprint{" +
+                "name='" + name + '\'' +
+                ", start=" + start +
+                ", durationWeeks=" + durationWeeks +
+                '}';
+    }
 }

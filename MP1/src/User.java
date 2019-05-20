@@ -15,6 +15,9 @@ public class User extends ObjectPlusPlus {
     }
 
     public void assignTask(Task task) throws Exception {
+        if (!task.objectHasNoLinks(LinksMetaData.TASK_USER.roleName)) {
+            System.out.println("This task is already connected to other user");
+        }
         if (task.getClass().equals(LinksMetaData.USER_TASK.targetObjectClass) &&
                 this.getClass().equals(LinksMetaData.USER_TASK.objectClass)) {
             this.addLink(LinksMetaData.USER_TASK.roleName, LinksMetaData.USER_TASK.reverseRoleName, task);

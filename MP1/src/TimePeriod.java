@@ -1,6 +1,7 @@
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class TimePeriod {
+public class TimePeriod implements Serializable {
 
     private LocalDate dateStart;
     private LocalDate dateEnd;

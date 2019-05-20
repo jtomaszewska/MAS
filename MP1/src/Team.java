@@ -1,3 +1,5 @@
+import java.time.LocalDate;
+
 public class Team extends ObjectPlusPlus {
 
     private String name;
@@ -16,6 +18,12 @@ public class Team extends ObjectPlusPlus {
 
     protected void addMember(User user, TimePeriod timePeriod) {
         new TeamUser(this, user, timePeriod);
+    }
+
+    protected void endCooperation(TeamUser teamUser, LocalDate timeEnd) {
+        LocalDate timeStart = teamUser.getTimePeriod().getDateStart();
+        TimePeriod period = new TimePeriod(timeStart, timeEnd);
+        teamUser.setTimePeriod(period);
     }
 
     @Override
