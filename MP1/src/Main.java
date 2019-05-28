@@ -54,7 +54,6 @@ public class Main {
         team2.showLinks(LinksMetaData.TEAM_USER.roleName, System.out);
 
         // kwalifikowana 1..* Project-Report qualifier:name
-
         Project project1 = new Project("Project 1");
         Report reportFin = new Report("Financial1", "\\\\repots.abc.pl\\project1\\fin1");
         Report reportTech = new Report("Technical1", "\\\\repots.abc.pl\\project1\\tech1");
@@ -69,8 +68,6 @@ public class Main {
         System.out.println(project1.getLinkedObject(LinksMetaData.PROJECT_REPORT.roleName, "Financial1"));
 
         //kompozycja Project - Sprint
-
-
         project1.addSprint("S1", LocalDate.now(), 1);
         project1.addSprint("S2", LocalDate.now().plusWeeks(1), 2);
         project1.showLinks(LinksMetaData.PROJECT_SPRINT.roleName, System.out);

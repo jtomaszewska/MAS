@@ -1,18 +1,12 @@
-import java.util.ArrayList;
-import java.util.List;
-
 public abstract class User {
 
     private String firstName;
     private String lastName;
-    private List<String> emails = new ArrayList<>();
+    private String email;
 
-    public User(String firstName, String lastName, List<String> emails) {
-        super();
+    public User(String firstName, String lastName, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.emails = emails;
+        this.email = email;
     }
-
-    public abstract void sendEmail(Email email);
 }
