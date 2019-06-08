@@ -1,4 +1,4 @@
 public enum TaskType {
 
-    Feature, Bug, Improvement, Technical
+    FEATURE, BUG, IMPROVEMENT, TECHNICAL;
 }
