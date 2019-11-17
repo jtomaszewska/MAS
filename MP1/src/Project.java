@@ -17,6 +17,7 @@ public class Project extends ObjectPlusPlus {
     }
 
     /*protected void registerRepair(Double expectedCost, String dateFrom, String description) {
+    
             Repair repair = Repair.registerRepair(this, expectedCost, dateFrom, description);
             this.addPart(repair.role, this.role, repair, repair.dateFrom);
         }*/
