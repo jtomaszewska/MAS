@@ -6,6 +6,7 @@ public class ArchiveTask extends Task{
         super(task);
         if(task.getStatus()!=Status.closed){
             System.out.println("Task should be closed before archive");
+            //dff
         }
         this.setStatus(Status.archived);
     }
